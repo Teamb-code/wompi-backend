@@ -17,19 +17,21 @@ def create_transaction():
     
     # Create payment payload
     payload = {
-        "acceptance_token": get_acceptance_token(),
-        "amount_in_cents": data["amount"] * 100,  # Convert to cents
-        "currency": "COP",
-        "customer_email": data["email"],
-        "payment_method": {
-            "type": "CARD",
-            "token": data["payment_token"]
-        },
-        "reference": data["reference"]
-    }
-    
-    headers = {"Authorization": f"Bearer {WOMPI_PRIVATE_KEY}"}
-    response = requests.post(f"{WOMPI_BASE_URL}/transactions", json=payload, headers=headers)
+    "acceptance_token": get_acceptance_token(),
+    "amount_in_cents": data["amount"] * 100,  # Convertir a centavos
+    "currency": "COP",
+    "customer_email": data["email"],
+    "payment_method": {
+        "type": "CARD",
+        "token": data["payment_token"],
+        "installments": data.get("installments", 1)  # Por defecto, 1 cuota
+    },
+    "reference": data["reference"]
+}
+
+headers = {"Authorization": f"Bearer {WOMPI_PRIVATE_KEY}"}
+response = requests.post(f"{WOMPI_BASE_URL}/transactions", json=payload, headers=headers)
+
     return jsonify(response.json())
 
 def get_acceptance_token():
