@@ -31,7 +31,6 @@ def create_transaction():
 
 headers = {"Authorization": f"Bearer {WOMPI_PRIVATE_KEY}"}
 response = requests.post(f"{WOMPI_BASE_URL}/transactions", json=payload, headers=headers)
-
 return jsonify(response.json())
 
 def get_acceptance_token():
