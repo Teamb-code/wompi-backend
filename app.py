@@ -12,9 +12,9 @@ WOMPI_BASE_URL = "https://production.wompi.co/v1"
 @app.route('/api/create_transaction', methods=['POST'])
 def create_transaction():
     data = request.json
-    if not data:
-        return jsonify({"error": "Invalid request"}), 400
-
+    if not data["payment_token"]:
+    return jsonify({"error": "Invalid payment token"}), 400
+   
     # Create payment payload
     payload = {
         "acceptance_token": get_acceptance_token(),
